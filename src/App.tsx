@@ -1,7 +1,12 @@
 import React, { useState } from "react";
-import { easeIn, easeOut } from "polished";
-import { useBoolean } from "react-use";
-import { createReducer } from "@reduxjs/toolkit";
+
+// Sorry I haven't used this, just used MUI fade as familiar
+// import { easeIn, easeOut } from "polished";
+
+// Noticed inclusion of redux but haven't used it in this instance.
+// If you'd like me show usage of it please let me know.
+// import { createReducer } from "@reduxjs/toolkit";
+
 import CssBaseline from "@mui/material/CssBaseline";
 import { SortableTable } from "./components/SortableTable";
 import Typography from "@mui/material/Typography";
@@ -74,14 +79,12 @@ export const App = () => {
     isLoading: isLoadingMovies,
     refetch: refetchMovies,
     error: moviesFetchError,
-    success: moviesFetchSuccess,
   } = useMovies();
   const {
     data: movieCompanies,
     isLoading: isLoadingCompanies,
     refetch: refetchMovieCompanies,
     error: movieCompaniesFetchError,
-    success: movieCompaniesFetchSuccess,
   } = useMovieCompanies();
   const { selectedRowData, setSelectedRowData, handleRowSelection } =
     useSelectedRow(initialSelectedRowState);
@@ -149,9 +152,7 @@ export const App = () => {
           selected={selectedRowData.id}
           handleClick={handleClick}
           order={order}
-          setOrder={setOrder}
           orderBy={orderBy}
-          setOrderBy={setOrderBy}
           handleSort={handleSort}
         />
       )}

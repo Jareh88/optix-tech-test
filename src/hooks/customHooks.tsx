@@ -8,6 +8,7 @@ import {
   SelectedRowData,
 } from "../App";
 import { UseFormSetError } from "react-hook-form";
+import { useBoolean } from "react-use";
 
 export const useFetchData = <T,>(
   url: string,
@@ -15,12 +16,11 @@ export const useFetchData = <T,>(
   dependencies: any[] = [] // add in dependencies so we can refetch easily from wherever when needed
 ) => {
   const [data, setData] = useState<T>(initialData);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, toggleIsLoading] = useBoolean(false); // Can't believe I've never seen useBoolean before.
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(true);
 
   const fetchData = useCallback(async () => {
-    setIsLoading(true);
+    toggleIsLoading(true);
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -29,11 +29,9 @@ export const useFetchData = <T,>(
       const jsonData: T = await response.json();
       setData(jsonData);
     } catch (error) {
-      setSuccess(false);
       setError("Error fetching data");
     } finally {
-      setSuccess(true);
-      setIsLoading(false);
+      toggleIsLoading(false);
     }
   }, [url]);
 
@@ -41,7 +39,7 @@ export const useFetchData = <T,>(
     fetchData();
   }, dependencies);
 
-  return { data, isLoading, error, success, refetch: fetchData };
+  return { data, isLoading, error, refetch: fetchData };
 };
 
 export const useMovies = () => {

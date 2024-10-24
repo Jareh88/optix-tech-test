@@ -13,9 +13,7 @@ interface SortableTableProps {
   selected: string | null;
   handleClick: (event: React.MouseEvent<unknown>, id: string) => void;
   order: Order;
-  setOrder: React.Dispatch<React.SetStateAction<Order>>;
   orderBy: keyof Data;
-  setOrderBy: React.Dispatch<React.SetStateAction<keyof Data>>;
   handleSort: (property: keyof Data) => void;
 }
 
@@ -25,9 +23,7 @@ export const SortableTable: React.FC<SortableTableProps> = ({
   selected,
   handleClick,
   order,
-  setOrder,
   orderBy,
-  setOrderBy,
   handleSort,
 }) => {
   const handleRequestSort = (

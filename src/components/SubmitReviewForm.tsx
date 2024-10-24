@@ -22,8 +22,6 @@ export const SubmitReviewForm: React.FC<SubmitReviewFormProps> = ({
   setSuccessMessage,
   selectedRow,
 }) => {
-  // const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
   const {
     control,
     handleSubmit,

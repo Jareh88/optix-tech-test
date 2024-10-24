@@ -1,6 +1,4 @@
 import { Button } from "@mui/material";
-import { Data, initialSelectedRowState, Order, SelectedRowData } from "../App";
-import { useMovieCompanies, useMovies } from "../hooks/customHooks";
 
 interface RefreshButtonProps {
   buttonText: string;

@@ -7,7 +7,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { ConditionalWrapper } from "../helpers/ConditionalWrapper";
-import { initialSelectedRowState, SelectedRow, SelectedRowData } from "../App";
+import { initialSelectedRowState, SelectedRowData } from "../App";
 import React from "react";
 import { SubmitReviewForm } from "./SubmitReviewForm";
 
