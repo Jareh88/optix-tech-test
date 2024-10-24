@@ -9,8 +9,9 @@ import {
 } from "../App";
 import { UseFormSetError } from "react-hook-form";
 import { useBoolean } from "react-use";
+import { toast } from "react-toastify";
 
-// For use when just running npm start
+// For use when just running npm start, in real world this would be import.meta.env env variable for different environments.
 const apiUrl = "http://localhost:3000";
 
 export const useFetchData = <T,>(
@@ -31,10 +32,10 @@ export const useFetchData = <T,>(
       }
       const jsonData: T = await response.json();
       setData(jsonData);
-    } catch (error) {
-      setError("Error fetching data");
-    } finally {
       setError(null);
+    } catch (error) {
+      setError(`Error fetching data`);
+    } finally {
       toggleIsLoading(false);
     }
   }, [url]);

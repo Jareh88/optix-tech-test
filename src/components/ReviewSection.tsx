@@ -6,7 +6,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { ConditionalWrapper } from "../helpers/ConditionalWrapper";
+import { ConditionalWrapper } from "./ConditionalWrapper";
 import { initialSelectedRowState, SelectedRowData } from "../App";
 import React from "react";
 import { SubmitReviewForm } from "./SubmitReviewForm";

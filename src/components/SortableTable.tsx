@@ -1,11 +1,7 @@
-import TableCell from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
 import { SortableTableHead } from "./SortableTableHead";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import Checkbox from "@mui/material/Checkbox";
 import { Data, Order } from "../App";
 import { getComparator } from "../helpers/MUI";
+import { Checkbox, Table, TableBody, TableCell, TableRow } from "@mui/material";
 
 interface SortableTableProps {
   rows: Data[];

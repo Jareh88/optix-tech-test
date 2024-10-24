@@ -7,13 +7,7 @@ import React, { useState } from "react";
 // If you'd like me show usage of it please let me know.
 // import { createReducer } from "@reduxjs/toolkit";
 
-import CssBaseline from "@mui/material/CssBaseline";
 import { SortableTable } from "./components/SortableTable";
-import Typography from "@mui/material/Typography";
-import CircularProgress from "@mui/material/CircularProgress";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import { ReviewSection } from "./components/ReviewSection";
 import { RefreshButton } from "./components/RefreshButton";
 import {
@@ -22,6 +16,15 @@ import {
   useSelectedRow,
   useSorting,
 } from "./hooks/customHooks";
+import {
+  Box,
+  CircularProgress,
+  Container,
+  CssBaseline,
+  Grid,
+  Typography,
+} from "@mui/material";
+import { ErrorFallback } from "./components/ErrorFallback";
 
 export interface Data {
   id: string;
@@ -57,7 +60,7 @@ export const optixApiGet = async <T extends APIData>(
     const data: T = await response.json();
     cb(data);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    handleApiError(error);
   } finally {
     setIsLoading(false);
   }
@@ -84,7 +87,6 @@ export const App = () => {
     data: movieCompanies,
     isLoading: isLoadingCompanies,
     refetch: refetchMovieCompanies,
-    error: movieCompaniesFetchError,
   } = useMovieCompanies();
   const { selectedRowData, setSelectedRowData, handleRowSelection } =
     useSelectedRow(initialSelectedRowState);
@@ -109,10 +111,7 @@ export const App = () => {
         <Grid container spacing={0}>
           <Grid item xs={10}>
             <Typography variant="h4" component="h3" mb="1rem">
-              Total movies displayed:{" "}
-              {movieCompaniesFetchError || moviesFetchError
-                ? "N/A"
-                : rows.length}
+              Total movies displayed: {moviesFetchError ? "N/A" : rows.length}
             </Typography>
           </Grid>
           <Grid item xs={2}>
@@ -134,12 +133,8 @@ export const App = () => {
 
       {/* There was some issue with a 500 error on some page refreshes I couldn't get to the bottom of...
       Something to do with express on localhost perhaps? Too many requests at once? */}
-      {movieCompaniesFetchError || moviesFetchError ? (
-        <>
-          <Typography variant="body1" color="error">
-            Error fetching data!
-          </Typography>
-        </>
+      {moviesFetchError ? (
+        <ErrorFallback errorMessage={moviesFetchError} />
       ) : isLoadingMovies || isLoadingCompanies ? (
         <>
           <CircularProgress />
