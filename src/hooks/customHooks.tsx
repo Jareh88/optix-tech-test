@@ -10,6 +10,9 @@ import {
 import { UseFormSetError } from "react-hook-form";
 import { useBoolean } from "react-use";
 
+// For use when just running npm start
+const apiUrl = "http://localhost:3000";
+
 export const useFetchData = <T,>(
   url: string,
   initialData: T,
@@ -31,6 +34,7 @@ export const useFetchData = <T,>(
     } catch (error) {
       setError("Error fetching data");
     } finally {
+      setError(null);
       toggleIsLoading(false);
     }
   }, [url]);
@@ -43,14 +47,11 @@ export const useFetchData = <T,>(
 };
 
 export const useMovies = () => {
-  return useFetchData<Data[]>("http://localhost:3000/movies", []);
+  return useFetchData<Data[]>(`${apiUrl}/movies`, []);
 };
 
 export const useMovieCompanies = () => {
-  return useFetchData<MovieCompanyData[]>(
-    "http://localhost:3000/movieCompanies",
-    []
-  );
+  return useFetchData<MovieCompanyData[]>(`${apiUrl}/movieCompanies`, []);
 };
 
 export const useSelectedRow = (initialState: SelectedRowData) => {
@@ -102,7 +103,7 @@ export const useHandleSubmit = (
     setSuccessMessage("");
     setIsSubmitting(true);
     try {
-      const response = await fetch("http://localhost:3000/submitReview", {
+      const response = await fetch(`${apiUrl}/submitReview`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

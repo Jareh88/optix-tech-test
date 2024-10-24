@@ -6,7 +6,11 @@
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docker-up": "docker-compose up",
+    "docker-build": "docker-compose build",
+    "docker-down": "docker-compose down",
+    "docker-rebuild": "docker-compose down && docker-compose up --build"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -22,6 +26,7 @@
     "react-use": "^17.4.0"
   },
   "devDependencies": {
+    "@types/node": "^22.7.9",
     "@types/react": "^18.0.18",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.1.0",

@@ -109,10 +109,7 @@ export const App = () => {
         <Grid container spacing={0}>
           <Grid item xs={10}>
             <Typography variant="h4" component="h3" mb="1rem">
-              Total movies displayed:{" "}
-              {movieCompaniesFetchError || moviesFetchError
-                ? "N/A"
-                : rows.length}
+              Total movies displayed: {moviesFetchError ? "N/A" : rows.length}
             </Typography>
           </Grid>
           <Grid item xs={2}>
@@ -134,7 +131,7 @@ export const App = () => {
 
       {/* There was some issue with a 500 error on some page refreshes I couldn't get to the bottom of...
       Something to do with express on localhost perhaps? Too many requests at once? */}
-      {movieCompaniesFetchError || moviesFetchError ? (
+      {moviesFetchError ? (
         <>
           <Typography variant="body1" color="error">
             Error fetching data!
