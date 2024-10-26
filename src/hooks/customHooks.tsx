@@ -34,7 +34,9 @@ export const useFetchData = <T,>(
       setData(jsonData);
       setError(null);
     } catch (error) {
-      setError(`Error fetching data`);
+      if (error instanceof Error) {
+        setError(`${error.message}`);
+      }
     } finally {
       toggleIsLoading(false);
     }

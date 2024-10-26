@@ -93,7 +93,7 @@ export const SubmitReviewForm: React.FC<SubmitReviewFormProps> = ({
           type="submit"
           variant="contained"
           color="primary"
-          disabled={isSubmitting || !selectedRow || selectedRow === "0"}
+          disabled={isSubmitting || !selectedRow || selectedRow === null}
         >
           {/* I've used the LoadingButton on a previous project but this works fine when set properly/in theme */}
           {isSubmitting ? <CircularProgress size={24} /> : "Submit"}
