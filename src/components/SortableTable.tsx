@@ -70,6 +70,7 @@ export const SortableTable: React.FC<SortableTableProps> = ({
                   row.reviews.reduce((acc: any, i: any) => acc + i, 0) /
                   row.reviews.length
                 )
+                  .toFixed(1)
                   ?.toString()
                   .substring(0, 3)}{" "}
               </TableCell>
