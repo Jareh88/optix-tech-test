@@ -7,13 +7,7 @@ import React, { useState } from "react";
 // If you'd like me show usage of it please let me know.
 // import { createReducer } from "@reduxjs/toolkit";
 
-import CssBaseline from "@mui/material/CssBaseline";
 import { SortableTable } from "./components/SortableTable";
-import Typography from "@mui/material/Typography";
-import CircularProgress from "@mui/material/CircularProgress";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import { ReviewSection } from "./components/ReviewSection";
 import { RefreshButton } from "./components/RefreshButton";
 import {
@@ -22,6 +16,19 @@ import {
   useSelectedRow,
   useSorting,
 } from "./hooks/customHooks";
+import {
+  Box,
+  CircularProgress,
+  Container,
+  CssBaseline,
+  Grid,
+  Typography,
+} from "@mui/material";
+import { ErrorFallback } from "./components/ErrorFallback";
+import { MainThemeProvider } from "./providers/ThemeProvider";
+import ToggleThemeButton from "./components/ToggleThemeButton";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import { Header } from "./components/Header";
 
 export interface Data {
   id: string;
@@ -57,7 +64,7 @@ export const optixApiGet = async <T extends APIData>(
     const data: T = await response.json();
     cb(data);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    handleApiError(error);
   } finally {
     setIsLoading(false);
   }
@@ -84,7 +91,6 @@ export const App = () => {
     data: movieCompanies,
     isLoading: isLoadingCompanies,
     refetch: refetchMovieCompanies,
-    error: movieCompaniesFetchError,
   } = useMovieCompanies();
   const { selectedRowData, setSelectedRowData, handleRowSelection } =
     useSelectedRow(initialSelectedRowState);
@@ -99,67 +105,66 @@ export const App = () => {
   };
 
   return (
-    <Container>
+    <MainThemeProvider>
       <CssBaseline />
-      <Typography variant="h2" gutterBottom>
-        Welcome to Movie database!
-      </Typography>
-      <Box>
-        {/* (Big fan of v2 grid in MUI v6) */}
-        <Grid container spacing={0}>
-          <Grid item xs={10}>
-            <Typography variant="h4" component="h3" mb="1rem">
-              Total movies displayed: {moviesFetchError ? "N/A" : rows.length}
-            </Typography>
+      <Header />
+      <Container>
+        <Typography variant="h2" gutterBottom>
+          Welcome to Movie database!
+        </Typography>
+        <Box>
+          {/* (Big fan of v2 grid in MUI v6) */}
+          <Grid container spacing={0}>
+            <Grid item xs={10}>
+              <Typography variant="h4" component="h3" mb="1rem">
+                Total movies displayed: {moviesFetchError ? "N/A" : rows.length}
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Box display="flex" justifyContent="flex-end">
+                <RefreshButton
+                  buttonText={"Refresh"}
+                  resetSelection={() =>
+                    setSelectedRowData({ id: null, title: "No Movie Selected" })
+                  }
+                  resetSorting={resetSorting}
+                  isLoading={isLoadingMovies || isLoadingCompanies}
+                  refetchMovies={refetchMovies}
+                  refetchMovieCompanies={refetchMovieCompanies}
+                />
+              </Box>
+            </Grid>
           </Grid>
-          <Grid item xs={2}>
-            <Box display="flex" justifyContent="flex-end">
-              <RefreshButton
-                buttonText={"Refresh"}
-                resetSelection={() =>
-                  setSelectedRowData({ id: null, title: "No Movie Selected" })
-                }
-                resetSorting={resetSorting}
-                isLoading={isLoadingMovies || isLoadingCompanies}
-                refetchMovies={refetchMovies}
-                refetchMovieCompanies={refetchMovieCompanies}
-              />
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>
+        </Box>
 
-      {/* There was some issue with a 500 error on some page refreshes I couldn't get to the bottom of...
+        {/* There was some issue with a 500 error on some page refreshes I couldn't get to the bottom of...
       Something to do with express on localhost perhaps? Too many requests at once? */}
-      {moviesFetchError ? (
-        <>
-          <Typography variant="body1" color="error">
-            Error fetching data!
-          </Typography>
-        </>
-      ) : isLoadingMovies || isLoadingCompanies ? (
-        <>
-          <CircularProgress />
-          <Typography variant="body1">Fetching table...</Typography>
-        </>
-      ) : (
-        <SortableTable
-          rows={rows}
-          categories={movieCompanies}
-          selected={selectedRowData.id}
-          handleClick={handleClick}
-          order={order}
-          orderBy={orderBy}
-          handleSort={handleSort}
-        />
-      )}
+        {moviesFetchError ? (
+          <ErrorFallback errorMessage={moviesFetchError} />
+        ) : isLoadingMovies || isLoadingCompanies ? (
+          <>
+            <CircularProgress />
+            <Typography variant="body1">Fetching table...</Typography>
+          </>
+        ) : (
+          <SortableTable
+            rows={rows}
+            categories={movieCompanies}
+            selected={selectedRowData.id}
+            handleClick={handleClick}
+            order={order}
+            orderBy={orderBy}
+            handleSort={handleSort}
+          />
+        )}
 
-      <ReviewSection
-        selectedRowData={selectedRowData}
-        setSelectedRowData={setSelectedRowData}
-        successMessage={successMessage}
-        setSuccessMessage={setSuccessMessage}
-      />
-    </Container>
+        <ReviewSection
+          selectedRowData={selectedRowData}
+          setSelectedRowData={setSelectedRowData}
+          successMessage={successMessage}
+          setSuccessMessage={setSuccessMessage}
+        />
+      </Container>
+    </MainThemeProvider>
   );
 };

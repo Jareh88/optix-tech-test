@@ -6,7 +6,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { ConditionalWrapper } from "../helpers/ConditionalWrapper";
+import { ConditionalWrapper } from "./ConditionalWrapper";
 import { initialSelectedRowState, SelectedRowData } from "../App";
 import React from "react";
 import { SubmitReviewForm } from "./SubmitReviewForm";
@@ -47,6 +47,7 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
 }) => {
   const theme = useTheme();
   const isSmallWindow = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Box py={2}>
       <ConditionalWrapper

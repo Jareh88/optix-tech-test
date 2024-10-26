@@ -1,11 +1,13 @@
-import Box from "@mui/material/Box";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
 import React from "react";
 import { visuallyHidden } from "@mui/utils";
 import { Data, Order } from "../App";
+import {
+  Box,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+} from "@mui/material";
 
 interface HeadCell {
   disablePadding: boolean;

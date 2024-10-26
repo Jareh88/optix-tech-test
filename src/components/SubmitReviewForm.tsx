@@ -1,8 +1,10 @@
-import { Button } from "@mui/material";
-import Box from "@mui/material/Box";
-import CircularProgress from "@mui/material/CircularProgress";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useHandleSubmit } from "../hooks/customHooks";
@@ -91,7 +93,7 @@ export const SubmitReviewForm: React.FC<SubmitReviewFormProps> = ({
           type="submit"
           variant="contained"
           color="primary"
-          disabled={isSubmitting || !selectedRow || selectedRow === "0"}
+          disabled={isSubmitting || !selectedRow || selectedRow === null}
         >
           {/* I've used the LoadingButton on a previous project but this works fine when set properly/in theme */}
           {isSubmitting ? <CircularProgress size={24} /> : "Submit"}

@@ -1,3 +1,4 @@
+// Would normally split these out to their own files.
 import { useState, useEffect, useCallback } from "react";
 import {
   Data,
@@ -10,8 +11,8 @@ import {
 import { UseFormSetError } from "react-hook-form";
 import { useBoolean } from "react-use";
 
-// For use when just running npm start
-const apiUrl = "http://localhost:3000";
+// For use when just running npm start, in real world this would be import.meta.env env variable for different environments.
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 export const useFetchData = <T,>(
   url: string,
@@ -31,10 +32,12 @@ export const useFetchData = <T,>(
       }
       const jsonData: T = await response.json();
       setData(jsonData);
-    } catch (error) {
-      setError("Error fetching data");
-    } finally {
       setError(null);
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(`${error.message}`);
+      }
+    } finally {
       toggleIsLoading(false);
     }
   }, [url]);
