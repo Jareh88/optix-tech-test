@@ -48,7 +48,7 @@ export const SortableTable: React.FC<SortableTableProps> = ({
         onRequestSort={handleRequestSort}
       />
       <TableBody>
-        {sortedRows.map((row: any) => {
+        {sortedRows.map((row: Data) => {
           const isItemSelected = selected === row.id;
           return (
             <TableRow
