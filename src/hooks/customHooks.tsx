@@ -12,7 +12,7 @@ import { UseFormSetError } from "react-hook-form";
 import { useBoolean } from "react-use";
 
 // For use when just running npm start, in real world this would be import.meta.env env variable for different environments.
-const apiUrl = "http://localhost:3000";
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 export const useFetchData = <T,>(
   url: string,
