@@ -25,6 +25,10 @@ import {
   Typography,
 } from "@mui/material";
 import { ErrorFallback } from "./components/ErrorFallback";
+import { MainThemeProvider } from "./providers/ThemeProvider";
+import ToggleThemeButton from "./components/ToggleThemeButton";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import { Header } from "./components/Header";
 
 export interface Data {
   id: string;
@@ -101,63 +105,66 @@ export const App = () => {
   };
 
   return (
-    <Container>
+    <MainThemeProvider>
       <CssBaseline />
-      <Typography variant="h2" gutterBottom>
-        Welcome to Movie database!
-      </Typography>
-      <Box>
-        {/* (Big fan of v2 grid in MUI v6) */}
-        <Grid container spacing={0}>
-          <Grid item xs={10}>
-            <Typography variant="h4" component="h3" mb="1rem">
-              Total movies displayed: {moviesFetchError ? "N/A" : rows.length}
-            </Typography>
+      <Header />
+      <Container>
+        <Typography variant="h2" gutterBottom>
+          Welcome to Movie database!
+        </Typography>
+        <Box>
+          {/* (Big fan of v2 grid in MUI v6) */}
+          <Grid container spacing={0}>
+            <Grid item xs={10}>
+              <Typography variant="h4" component="h3" mb="1rem">
+                Total movies displayed: {moviesFetchError ? "N/A" : rows.length}
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Box display="flex" justifyContent="flex-end">
+                <RefreshButton
+                  buttonText={"Refresh"}
+                  resetSelection={() =>
+                    setSelectedRowData({ id: null, title: "No Movie Selected" })
+                  }
+                  resetSorting={resetSorting}
+                  isLoading={isLoadingMovies || isLoadingCompanies}
+                  refetchMovies={refetchMovies}
+                  refetchMovieCompanies={refetchMovieCompanies}
+                />
+              </Box>
+            </Grid>
           </Grid>
-          <Grid item xs={2}>
-            <Box display="flex" justifyContent="flex-end">
-              <RefreshButton
-                buttonText={"Refresh"}
-                resetSelection={() =>
-                  setSelectedRowData({ id: null, title: "No Movie Selected" })
-                }
-                resetSorting={resetSorting}
-                isLoading={isLoadingMovies || isLoadingCompanies}
-                refetchMovies={refetchMovies}
-                refetchMovieCompanies={refetchMovieCompanies}
-              />
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>
+        </Box>
 
-      {/* There was some issue with a 500 error on some page refreshes I couldn't get to the bottom of...
+        {/* There was some issue with a 500 error on some page refreshes I couldn't get to the bottom of...
       Something to do with express on localhost perhaps? Too many requests at once? */}
-      {moviesFetchError ? (
-        <ErrorFallback errorMessage={moviesFetchError} />
-      ) : isLoadingMovies || isLoadingCompanies ? (
-        <>
-          <CircularProgress />
-          <Typography variant="body1">Fetching table...</Typography>
-        </>
-      ) : (
-        <SortableTable
-          rows={rows}
-          categories={movieCompanies}
-          selected={selectedRowData.id}
-          handleClick={handleClick}
-          order={order}
-          orderBy={orderBy}
-          handleSort={handleSort}
-        />
-      )}
+        {moviesFetchError ? (
+          <ErrorFallback errorMessage={moviesFetchError} />
+        ) : isLoadingMovies || isLoadingCompanies ? (
+          <>
+            <CircularProgress />
+            <Typography variant="body1">Fetching table...</Typography>
+          </>
+        ) : (
+          <SortableTable
+            rows={rows}
+            categories={movieCompanies}
+            selected={selectedRowData.id}
+            handleClick={handleClick}
+            order={order}
+            orderBy={orderBy}
+            handleSort={handleSort}
+          />
+        )}
 
-      <ReviewSection
-        selectedRowData={selectedRowData}
-        setSelectedRowData={setSelectedRowData}
-        successMessage={successMessage}
-        setSuccessMessage={setSuccessMessage}
-      />
-    </Container>
+        <ReviewSection
+          selectedRowData={selectedRowData}
+          setSelectedRowData={setSelectedRowData}
+          successMessage={successMessage}
+          setSuccessMessage={setSuccessMessage}
+        />
+      </Container>
+    </MainThemeProvider>
   );
 };

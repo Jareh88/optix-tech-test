@@ -1,11 +1,11 @@
 import React from "react";
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
-import { ErrorFallback } from "./ErrorFallback";
+import ToggleThemeButton from "./ToggleThemeButton";
 
-describe("<ErrorFallback>", () => {
+describe("<ToggleThemeButton>", () => {
   it("should render component", () => {
-    render(<ErrorFallback errorMessage="Test error" />);
+    render(<ToggleThemeButton />);
   });
   // Tests here
 });

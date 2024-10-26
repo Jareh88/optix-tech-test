@@ -47,6 +47,7 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({
 }) => {
   const theme = useTheme();
   const isSmallWindow = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Box py={2}>
       <ConditionalWrapper

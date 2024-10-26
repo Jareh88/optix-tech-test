@@ -3,11 +3,12 @@
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
-  width: 100vw;
+  width: 100%; /* vw includes width of vertical scrollbar */
   background-color: aliceblue;
 }
 
 body {
   margin: 0;
   padding: 0;
+  min-height: 100vh;
 }
